@@ -7,7 +7,10 @@ const modeConfig = (env) => require(`./scripts/webpack.${env}`)(env);
 
 module.exports = ({ mode } = { mode: "prod" }) => {
     return merge({
-        entry: path.resolve(__dirname, "src/index.js"),
+        entry: {
+            app: path.resolve(__dirname, "src/index.js"),
+            music: path.resolve(__dirname, "src/model.js"),
+        },
         output: {
             path: path.resolve(__dirname, "dist"),
             filename: "[chunkhash].bundle.js",
