@@ -1,7 +1,21 @@
-const model = new mm.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/drum_kit_rnn");
-model.initialize();
+const button = document.querySelector("#audio");
 
-const player = new mm.SoundFontPlayer('https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus');
+button.addEventListener("click", handleAudio);
+
+async function handleAudio() {
+    try {
+        const mm = await import("@magenta/music/es6");
+
+        const player = new mm.SoundFontPlayer('https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus');
+
+        const model = new mm.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/drum_kit_rnn");
+        model.initialize();
+
+        play(mm, player, model);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 const TWINKLE_TWINKLE = {
     notes: [
@@ -24,7 +38,7 @@ const TWINKLE_TWINKLE = {
     totalTime: 8
 };
 
-async function play() {
+async function play(mm, player, model) {
     if (player.isPlaying()) {
         player.stop();
         return;
@@ -32,11 +46,9 @@ async function play() {
 
     const quantizedNoteSequence = mm.sequences.quantizeNoteSequence(TWINKLE_TWINKLE, 4);
     try {
-        const sample = await model.continueSequence(quantizedNoteSequence, 200, 1.5);
+        const sample = await model.continueSequence(quantizedNoteSequence, 100, 1.5);
         player.start(sample);
     } catch (error) {
         console.error(error);
     }
 }
-
-play();

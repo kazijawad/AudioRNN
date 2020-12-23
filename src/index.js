@@ -21,7 +21,7 @@ renderer.setClearColor("#161616", 1);
 const scene = new THREE.Scene();
 
 // Camera
-const camera = new THREE.PerspectiveCamera(70, 2, 1, 1000);
+const camera = new THREE.PerspectiveCamera(75, dimensions.width / dimensions.height, 0.1, 1000);
 camera.position.set(0, 0, -4);
 camera.lookAt(new THREE.Vector3());
 scene.add(camera);
