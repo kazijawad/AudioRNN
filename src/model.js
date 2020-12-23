@@ -1,17 +1,46 @@
+import { Midi } from '@tonejs/midi';
+
+const midi = new Midi();
+
 const button = document.querySelector("#audio");
 
 button.addEventListener("click", handleAudio);
 
 async function handleAudio() {
+    const track = midi.addTrack();
+
     try {
+        const Tone = await import("tone");
         const mm = await import("@magenta/music/es6");
+
+        const meter = new Tone.Meter();
+        const mic = new Tone.UserMedia().connect(meter);
+        mic.open().then(() => {
+            let time = 0;
+
+            const recordAudio = setInterval(() => {
+                const value = meter.getValue();
+                track.addNote({
+                    time,
+                    midi: value,
+                    duration: 0.1,
+                });
+                time += 0.1;
+
+                if (time >= 15) {
+                    clearInterval(recordAudio);
+                    mic.close();
+                    console.log(track.notes);
+                }
+            }, 100);
+        });
 
         const player = new mm.SoundFontPlayer('https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus');
 
-        const model = new mm.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/drum_kit_rnn");
+        const model = new mm.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/melody_rnn");
         model.initialize();
 
-        play(mm, player, model);
+        // play(mm, player, model);
     } catch (error) {
         console.error(error);
     }
@@ -46,7 +75,7 @@ async function play(mm, player, model) {
 
     const quantizedNoteSequence = mm.sequences.quantizeNoteSequence(TWINKLE_TWINKLE, 4);
     try {
-        const sample = await model.continueSequence(quantizedNoteSequence, 100, 1.5);
+        const sample = await model.continueSequence(quantizedNoteSequence, 64, 1.5);
         player.start(sample);
     } catch (error) {
         console.error(error);
