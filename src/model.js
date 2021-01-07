@@ -1,14 +1,13 @@
 import { Midi } from '@tonejs/midi';
 
-const midi = new Midi();
+// const midi = new Midi();
 
 const button = document.querySelector("#audio");
 
 button.addEventListener("click", handleAudio);
 
 async function handleAudio() {
-    const track = midi.addTrack();
-
+    // const track = midi.addTrack();
     try {
         const Tone = await import("tone");
         const mm = await import("@magenta/music/es6");
@@ -19,18 +18,17 @@ async function handleAudio() {
             let time = 0;
 
             const recordAudio = setInterval(() => {
-                const value = meter.getValue();
-                track.addNote({
-                    time,
-                    midi: value,
-                    duration: 0.1,
-                });
+                const frequency = meter.toFrequency("A4");
+                const midi = Tone.Frequency(frequency, "hz").toMidi();
                 time += 0.1;
 
-                if (time >= 15) {
+                console.log(meter.getValue());
+                console.log(meter.toFrequency("A4"));
+                console.log(midi);
+
+                if (time >= 5) {
                     clearInterval(recordAudio);
                     mic.close();
-                    console.log(track.notes);
                 }
             }, 100);
         });
