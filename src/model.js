@@ -12,19 +12,18 @@ async function handleAudio() {
         const Tone = await import("tone");
         const mm = await import("@magenta/music/es6");
 
-        const meter = new Tone.Meter();
-        const mic = new Tone.UserMedia().connect(meter);
+        const mic = new Tone.UserMedia();
+        const micFFT = new Tone.FFT();
+        mic.connect(micFFT);
+
         mic.open().then(() => {
             let time = 0;
 
             const recordAudio = setInterval(() => {
-                const frequency = meter.toFrequency("A4");
-                const midi = Tone.Frequency(frequency, "hz").toMidi();
                 time += 0.1;
 
-                console.log(meter.getValue());
-                console.log(meter.toFrequency("A4"));
-                console.log(midi);
+                const frequencyData = (micFFT.getValue()).map((_, index) => micFFT.getFrequencyOfIndex(index))
+                console.log(frequencyData.map((value) => Tone.Midi(value, "hz")));
 
                 if (time >= 5) {
                     clearInterval(recordAudio);
