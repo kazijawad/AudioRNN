@@ -1,41 +1,31 @@
-import { Midi } from '@tonejs/midi';
-
-// const midi = new Midi();
-
 const button = document.querySelector("#audio");
 
 button.addEventListener("click", handleAudio);
 
+const wait = (amount = 0) => new Promise(resolve => setTimeout(resolve, amount));
+
 async function handleAudio() {
-    // const track = midi.addTrack();
     try {
         const Tone = await import("tone");
-        const mm = await import("@magenta/music/es6");
+        // const mm = await import("@magenta/music/es6");
 
+        const size = Math.pow(2, 10);
         const mic = new Tone.UserMedia();
-        const micFFT = new Tone.FFT();
+        const micFFT = new Tone.FFT(size);
         mic.connect(micFFT);
 
-        mic.open().then(() => {
-            let time = 0;
+        await mic.open();
+        await wait(5000);
+        mic.close();
 
-            const recordAudio = setInterval(() => {
-                time += 0.1;
+        const frequencyData = micFFT.getValue();
+        const frequencyValues = frequencyData.map((_, i) => micFFT.getFrequencyOfIndex(i));
+        console.log(frequencyValues);
 
-                const frequencyData = (micFFT.getValue()).map((_, index) => micFFT.getFrequencyOfIndex(index))
-                console.log(frequencyData.map((value) => Tone.Midi(value, "hz")));
+        // const player = new mm.SoundFontPlayer('https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus');
 
-                if (time >= 5) {
-                    clearInterval(recordAudio);
-                    mic.close();
-                }
-            }, 100);
-        });
-
-        const player = new mm.SoundFontPlayer('https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus');
-
-        const model = new mm.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/melody_rnn");
-        model.initialize();
+        // const model = new mm.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/melody_rnn");
+        // model.initialize();
 
         // play(mm, player, model);
     } catch (error) {
