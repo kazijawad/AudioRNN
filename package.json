@@ -29,6 +29,7 @@
         "glslify-loader": "^2.0.0",
         "html-loader": "^1.3.2",
         "html-webpack-plugin": "^4.5.0",
+        "pitchfinder": "^2.3.1",
         "raw-loader": "^4.0.2",
         "style-loader": "^2.0.0",
         "three": "^0.123.0",

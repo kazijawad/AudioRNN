@@ -1,70 +1,50 @@
-const button = document.querySelector("#audio");
-
-button.addEventListener("click", handleAudio);
-
-const wait = (amount = 0) => new Promise(resolve => setTimeout(resolve, amount));
+import Pitchfinder from 'pitchfinder';
 
 async function handleAudio() {
     try {
         const Tone = await import("tone");
-        // const mm = await import("@magenta/music/es6");
 
         const size = Math.pow(2, 10);
-        const mic = new Tone.UserMedia();
-        const micFFT = new Tone.FFT(size);
-        mic.connect(micFFT);
 
-        await mic.open();
-        await wait(5000);
-        mic.close();
+        const analyzer = new Tone.Waveform(size);
+        const microphone = new Tone.UserMedia();
+        microphone.connect(analyzer);
 
-        const frequencyData = micFFT.getValue();
-        const frequencyValues = frequencyData.map((_, i) => micFFT.getFrequencyOfIndex(i));
-        console.log(frequencyValues);
+        const detectPitch = Pitchfinder.Macleod({ sampleRate: Tone.context.sampleRate });
 
-        // const player = new mm.SoundFontPlayer('https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus');
+        await microphone.open();
 
-        // const model = new mm.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/melody_rnn");
-        // model.initialize();
+        const noteSequence = { notes: [], totalTime: 0 };
+        let currentTime = 0;
 
-        // play(mm, player, model);
+        const recordAudio = setInterval(() => {
+            const value = analyzer.getValue();
+            const pitch = detectPitch(value);
+            const midi = Math.round(69 + 12 * Math.log2(pitch.freq / 440));
+
+            if (midi) {
+                const normalizedTime = (currentTime + 100) / 1000;
+                noteSequence.notes.push({
+                    pitch: midi,
+                    startTime: (currentTime) / 1000,
+                    endTime: normalizedTime,
+                });
+                noteSequence.totalTime = normalizedTime;
+            }
+
+            currentTime += 100;
+
+            if (currentTime >= 5000) {
+                clearInterval(recordAudio);
+                microphone.close();
+                console.log(noteSequence);
+            }
+        }, 100);
     } catch (error) {
         console.error(error);
     }
 }
 
-const TWINKLE_TWINKLE = {
-    notes: [
-        { pitch: 60, startTime: 0.0, endTime: 0.5 },
-        { pitch: 60, startTime: 0.5, endTime: 1.0 },
-        { pitch: 67, startTime: 1.0, endTime: 1.5 },
-        { pitch: 67, startTime: 1.5, endTime: 2.0 },
-        { pitch: 69, startTime: 2.0, endTime: 2.5 },
-        { pitch: 69, startTime: 2.5, endTime: 3.0 },
-        { pitch: 67, startTime: 3.0, endTime: 4.0 },
-        { pitch: 65, startTime: 4.0, endTime: 4.5 },
-        { pitch: 65, startTime: 4.5, endTime: 5.0 },
-        { pitch: 64, startTime: 5.0, endTime: 5.5 },
-        { pitch: 64, startTime: 5.5, endTime: 6.0 },
-        { pitch: 62, startTime: 6.0, endTime: 6.5 },
-        { pitch: 62, startTime: 6.5, endTime: 7.0 },
-        { pitch: 60, startTime: 7.0, endTime: 8.0 },
-    ],
-    tempos: [{ time: 0,  qpm: 120 }],
-    totalTime: 8
-};
+const button = document.querySelector("#audio");
 
-async function play(mm, player, model) {
-    if (player.isPlaying()) {
-        player.stop();
-        return;
-    }
-
-    const quantizedNoteSequence = mm.sequences.quantizeNoteSequence(TWINKLE_TWINKLE, 4);
-    try {
-        const sample = await model.continueSequence(quantizedNoteSequence, 64, 1.5);
-        player.start(sample);
-    } catch (error) {
-        console.error(error);
-    }
-}
+button.addEventListener("click", handleAudio);

@@ -33,6 +33,7 @@ body {
     padding: 1rem 1.5rem;
     font-size: 2rem;
     border: none;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 812px) {
