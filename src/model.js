@@ -15,7 +15,7 @@ async function playMusic(noteSequence) {
         }
     
         const quantizedNoteSequence = mm.sequences.quantizeNoteSequence(noteSequence, 4);
-        const sample = await model.continueSequence(quantizedNoteSequence, 20, 0.5);
+        const sample = await model.continueSequence(quantizedNoteSequence, 40, 0.5);
         player.start(sample);
     } catch (error) {
         console.error(error);
