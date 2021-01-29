@@ -1,6 +1,9 @@
+import styles from "./timeline.module.css";
+
 class Timeline {
     constructor(containerID) {
         this.container = document.getElementById(containerID);
+        this.container.classList.add(styles.timeline);
     }
 
     render() {
