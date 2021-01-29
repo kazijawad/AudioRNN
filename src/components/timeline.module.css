@@ -2,10 +2,34 @@
     position: fixed;
     bottom: 0;
     left: 0;
+    height: 10vh;
     width: calc(100vw - 4rem);
     margin: 2rem;
     padding: 1rem;
     background-color: #dfe6e9;
     font-size: 2rem;
     border-radius: .5rem;
+}
+
+.timelineBtn {
+    height: 100%;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+.timelineBtn:not(:last-of-type) {
+    margin-right: 1rem;
+}
+
+.timelineBtn:disabled {
+    cursor: not-allowed;
+}
+
+.timelineBtn:disabled .timelineImg {
+    opacity: 0.4;
+}
+
+.timelineImg {
+    height: 100%;
 }
