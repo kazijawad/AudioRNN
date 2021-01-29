@@ -1,14 +1,15 @@
 {
-    "name": "webpack-three-template",
-    "description": "A Webpack Three.js Template",
-    "main": "index.js",
-    "homepage": "https://github.com/kazijawad/webpack-three-template.git",
+    "name": "audio-rnn",
+    "description": "A simple audio workstation that generates music from raw audio input using a RNN model.",
+    "private": true,
+    "license": "UNLICENSED",
+    "homepage": "https://github.com/kazijawad/AudioRNN.git",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/kazijawad/webpack-three-template.git"
+        "url": "git+https://github.com/kazijawad/AudioRNN.git"
     },
     "bugs": {
-        "url": "https://github.com/kazijawad/webpack-three-template.git"
+        "url": "https://github.com/kazijawad/AudioRNN.git"
     },
     "scripts": {
         "dev": "webpack serve --hot --env mode=dev",

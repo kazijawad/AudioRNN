@@ -9,7 +9,7 @@ module.exports = ({ mode } = { mode: "prod" }) => {
     return merge({
         entry: {
             app: path.resolve(__dirname, "src/index.js"),
-            music: path.resolve(__dirname, "src/model.js"),
+            music: path.resolve(__dirname, "src/components/model.js"),
         },
         output: {
             path: path.resolve(__dirname, "dist"),
