@@ -28,12 +28,16 @@ body {
     z-index: -100;
 }
 
-#audio {
-    margin: 10rem;
-    padding: 1rem 1.5rem;
+#timeline {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: calc(100vw - 4rem);
+    margin: 2rem;
+    padding: 1rem;
+    background-color: #dfe6e9;
     font-size: 2rem;
-    border: none;
-    cursor: pointer;
+    border-radius: .5rem;
 }
 
 @media only screen and (max-width: 812px) {
