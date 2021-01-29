@@ -25,22 +25,42 @@ class Timeline {
         this.pauseBtn.classList.add(styles.timelineBtn);
         pauseImg.classList.add(styles.timelineImg);
 
+        this.pauseBtn.addEventListener("click", (event) => {
+            this.handlePauseBtn(event);
+        });
+
         this.pauseBtn.appendChild(pauseImg);
         this.container.appendChild(this.pauseBtn);
     }
 
     renderPlayBtn() {
-        const playBtn = document.createElement("button");
+        this.playBtn = document.createElement("button");
         const playImg = document.createElement("img");
 
         playImg.src = PlayIcon;
         playImg.alt = "Play Button";
 
-        playBtn.classList.add(styles.timelineBtn);
+        this.playBtn.classList.add(styles.timelineBtn);
         playImg.classList.add(styles.timelineImg);
 
-        playBtn.appendChild(playImg);
-        this.container.appendChild(playBtn);
+        this.playBtn.addEventListener("click", (event) => {
+            this.handlePlayBtn(event);
+        });
+
+        this.playBtn.appendChild(playImg);
+        this.container.appendChild(this.playBtn);
+    }
+
+    handlePauseBtn(event) {
+        event.preventDefault();
+        this.pauseBtn.disabled = true;
+        this.playBtn.disabled = false;
+    }
+
+    handlePlayBtn(event) {
+        event.preventDefault();
+        this.playBtn.disabled = true;
+        this.pauseBtn.disabled = false;
     }
 }
 
