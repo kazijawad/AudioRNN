@@ -1,4 +1,5 @@
 import styles from "./timeline.module.css";
+import AudioInput from '../components/audio';
 import PauseIcon from "../assets/pause-circle-outline.svg";
 import PlayIcon from "../assets/play-circle-outline.svg";
 
@@ -55,12 +56,17 @@ class Timeline {
         event.preventDefault();
         this.pauseBtn.disabled = true;
         this.playBtn.disabled = false;
+
+        this.audioInput.pauseAudio();
     }
 
     handlePlayBtn(event) {
         event.preventDefault();
         this.playBtn.disabled = true;
         this.pauseBtn.disabled = false;
+
+        this.audioInput = new AudioInput();
+        this.audioInput.recordAudio();
     }
 }
 
