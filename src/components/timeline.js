@@ -1,5 +1,6 @@
 import styles from "./timeline.module.css";
 import AudioInput from '../components/audio';
+import MusicRNN from '../components/model';
 import PauseIcon from "../assets/pause-circle-outline.svg";
 import PlayIcon from "../assets/play-circle-outline.svg";
 
@@ -58,6 +59,8 @@ class Timeline {
         this.playBtn.disabled = false;
 
         this.audioInput.pauseAudio();
+        this.model = new MusicRNN();
+        this.model.generateMusic(this.audioInput.noteSequence);
     }
 
     handlePlayBtn(event) {
