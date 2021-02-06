@@ -16,7 +16,7 @@ class Stage {
         this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(this.width, this.height);
-        this.renderer.setClearColor("#161616", 1);
+        this.renderer.setClearColor("#54baf3", 1);
 
         // Scene
         this.scene = new THREE.Scene();

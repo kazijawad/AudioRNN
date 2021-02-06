@@ -13,6 +13,7 @@ class Timeline {
     render() {
         this.renderPauseBtn();
         this.renderPlayBtn();
+        this.renderProgress();
 
         this.pauseBtn.disabled = true;
     }
@@ -70,6 +71,18 @@ class Timeline {
 
         this.audioInput = new AudioInput();
         this.audioInput.recordAudio();
+    }
+
+    renderProgress() {
+        this.progress = document.createElement('div');
+        this.progressBar = document.createElement('div');
+
+        this.progress.classList.add(styles.timelineProgress);
+        this.progressBar.classList.add(styles.timelineProgressBar);
+        this.progressBar.style.width = "0%";
+
+        this.progress.appendChild(this.progressBar);
+        this.container.appendChild(this.progress);
     }
 }
 
