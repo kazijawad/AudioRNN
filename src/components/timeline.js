@@ -61,7 +61,7 @@ class Timeline {
 
         this.audioInput.pauseAudio();
         this.model = new MusicRNN();
-        this.model.generateMusic(this.audioInput.noteSequence);
+        this.model.generateMusic(this.audioInput.noteSequence, this.progressWidth, this.progressBar);
     }
 
     handlePlayBtn(event) {
@@ -79,7 +79,9 @@ class Timeline {
 
         this.progress.classList.add(styles.timelineProgress);
         this.progressBar.classList.add(styles.timelineProgressBar);
-        this.progressBar.style.width = "0%";
+
+        this.progressWidth = 0;
+        this.progressBar.style.width =`${this.progressWidth}%`;
 
         this.progress.appendChild(this.progressBar);
         this.container.appendChild(this.progress);

@@ -10,7 +10,7 @@ class MusicRNN {
         }
     }
 
-    async generateMusic(noteSequence) {
+    async generateMusic(noteSequence, progressWidth, progressBar) {
         if (this.player.isPlaying()) {
             this.player.stop();
             return;
@@ -19,6 +19,23 @@ class MusicRNN {
         this.quantizedNoteSequence = mm.sequences.quantizeNoteSequence(noteSequence, 4);
         this.sample = await this.model.continueSequence(this.quantizedNoteSequence, 40, 0.5);
         this.player.start(this.sample);
+
+        const unquantizedNotes = mm.sequences.unquantizeSequence(this.sample);
+        const totalTime = unquantizedNotes.totalTime * 1000;
+        const interval = (100 / totalTime) * 100;
+        let time = 100;
+
+        this.progressInterval = setInterval(() => {
+            if (time >= totalTime) {
+                progressWidth = 100;
+                progressBar.style.width = "100%";
+                clearInterval(this.progressInterval);
+            } else {
+                progressWidth += interval;
+                progressBar.style.width = `${progressWidth}%`;
+            }
+            time += 100;
+        }, 100);
     }
 }
 
