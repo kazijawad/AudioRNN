@@ -8,6 +8,8 @@ class Timeline {
     constructor(containerID) {
         this.container = document.getElementById(containerID);
         this.container.classList.add(styles.timeline);
+
+        this.model = new MusicRNN();
     }
 
     render() {
@@ -60,7 +62,6 @@ class Timeline {
         this.playBtn.disabled = false;
 
         this.audioInput.pauseAudio();
-        this.model = new MusicRNN();
         this.model.generateMusic(this.audioInput.noteSequence, this.progressWidth, this.progressBar);
     }
 

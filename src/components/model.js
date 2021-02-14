@@ -17,7 +17,7 @@ class MusicRNN {
         }
 
         this.quantizedNoteSequence = mm.sequences.quantizeNoteSequence(noteSequence, 4);
-        this.sample = await this.model.continueSequence(this.quantizedNoteSequence, 40, 0.5);
+        this.sample = await this.model.continueSequence(this.quantizedNoteSequence, 20, 0.75);
         this.player.start(this.sample);
 
         const unquantizedNotes = mm.sequences.unquantizeSequence(this.sample);
