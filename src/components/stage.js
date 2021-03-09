@@ -1,75 +1,78 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-import styles from "./stage.module.css";
-import vertexShader from "../shaders/vertex.glsl";
-import fragmentShader from "../shaders/fragment.glsl";
+// Sizes
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+};
 
-class Stage {
-    constructor(canvasID) {
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
+// Loaders
+const glTFLoader = new GLTFLoader();
 
-        // Renderer
-        this.canvas = document.getElementById(canvasID);
-        this.canvas.classList.add(styles.stage);
-        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-        this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.renderer.setSize(this.width, this.height);
-        this.renderer.setClearColor("#2d3436", 1);
+// Canvas
+const canvas = document.getElementById("stage");
 
-        // Scene
-        this.scene = new THREE.Scene();
+// Scene
+const scene = new THREE.Scene();
 
-        // Camera
-        this.camera = new THREE.PerspectiveCamera(75, this.width / this.height, 0.1, 1000);
-        this.camera.position.set(0, 0, -4);
-        this.camera.lookAt(new THREE.Vector3());
-        this.scene.add(this.camera);
+// Fog
+const fog = new THREE.Fog("#dfe6e9", 30, 55);
+scene.fog = fog;
 
-        // Controls
-        this.controls = new OrbitControls(this.camera, this.canvas);
-        this.controls.update();
+// Camera
+const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100);
+camera.position.set(22, 5, 22);
+camera.rotation.y = Math.PI / 4
+scene.add(camera);
 
-        // Test Cube
-        this.geometry = new THREE.BoxGeometry(1, 1, 1);
-        this.material = new THREE.ShaderMaterial({
-            vertexShader,
-            fragmentShader,
-            uniforms: {
-                color: {
-                    value: new THREE.Color("#fff"),
-                },
-                time: {
-                    value: 0,
-                },
-            },
-        });
-        this.cube = new THREE.Mesh(this.geometry, this.material);
-        this.scene.add(this.cube);
+// Lights
+const ambientLight = new THREE.AmbientLight(0xFFFFFF, 1);
+scene.add(ambientLight);
 
-        window.addEventListener("resize", () => {
-            // Update Dimensions
-            this.width = window.innerWidth;
-            this.height = window.innerHeight;
+const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 3);
+directionalLight.position.set(25, 5, 25);
+scene.add(directionalLight);
 
-            // Update Camera
-            this.camera.aspect = this.width / this.height;
-            this.camera.updateProjectionMatrix();
+// Models
+const planeGeometry = new THREE.PlaneGeometry(100, 100);
+const planeMaterial = new THREE.MeshBasicMaterial({ color: "#dfe6e9" });
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.rotation.x = -Math.PI / 2;
+scene.add(plane);
 
-            // Update Renderer
-            this.renderer.setSize(this.width, this.height);
-        })
+glTFLoader.load("/models/room.glb", (glTF) => scene.add(glTF.scene));
 
-        this.render = () => {
-            this.cube.rotation.y += 0.01;
-            this.material.uniforms.time.value += 0.01;
+// Renderer
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setSize(sizes.width, sizes.height);
+renderer.setClearColor("#dfe6e9");
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.physicallyCorrectLights = true;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
-            this.controls.update();
-            this.renderer.render(this.scene, this.camera);
-            window.requestAnimationFrame(this.render);
-        }
-    }
-}
+window.addEventListener("resize", () => {
+    // Update sizes
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
 
-export default Stage;
+    // Update camera
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
+// Animation
+const tick = () => {
+    // Render
+    renderer.render(scene, camera);
+
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick);
+};
+
+tick();

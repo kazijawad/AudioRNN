@@ -1,9 +1,6 @@
 import "./styles/index.css";
-import StageC from './components/stage';
-import TimelineC from './components/timeline';
+import "./components/stage";
+import Timeline from './components/timeline';
 
-const Stage = new StageC("stage");
-Stage.render();
-
-const Timeline = new TimelineC("timeline");
-Timeline.render();
+const timeline = new Timeline("timeline");
+timeline.render();

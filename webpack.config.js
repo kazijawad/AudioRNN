@@ -41,7 +41,7 @@ module.exports = ({ mode } = { mode: "prod" }) => {
         },
         plugins: [
             new CopyWebpackPlugin({ patterns: [{ from: path.resolve(__dirname, "public") }] }),
-            new HtmlWebpackPlugin({ template: path.resolve(__dirname, "src/index.html") })
+            new HtmlWebpackPlugin({ template: path.resolve(__dirname, "public/index.html") })
         ],
     }, modeConfig(mode));
 }

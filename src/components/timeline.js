@@ -1,8 +1,6 @@
 import styles from "./timeline.module.css";
 import AudioInput from '../components/audio';
 import MusicRNN from '../components/model';
-import PauseIcon from "../assets/pause-circle-outline.svg";
-import PlayIcon from "../assets/play-circle-outline.svg";
 
 class Timeline {
     constructor(containerID) {
@@ -24,8 +22,8 @@ class Timeline {
         this.pauseBtn = document.createElement("button");
         const pauseImg = document.createElement("img");
 
-        pauseImg.src = PauseIcon;
-        pauseImg.alt = "Pause Button";
+        pauseImg.setAttribute("src", "/icons/pause-circle-outline.svg");
+        pauseImg.setAttribute("alt", "Pause Button");
 
         this.pauseBtn.classList.add(styles.timelineBtn);
         pauseImg.classList.add(styles.timelineImg);
@@ -42,8 +40,8 @@ class Timeline {
         this.playBtn = document.createElement("button");
         const playImg = document.createElement("img");
 
-        playImg.src = PlayIcon;
-        playImg.alt = "Play Button";
+        playImg.setAttribute("src", "/icons/play-circle-outline.svg");
+        playImg.setAttribute("alt", "Play Button");
 
         this.playBtn.classList.add(styles.timelineBtn);
         playImg.classList.add(styles.timelineImg);
