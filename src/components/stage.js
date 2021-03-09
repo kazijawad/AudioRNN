@@ -76,3 +76,5 @@ const tick = () => {
 };
 
 tick();
+
+export default scene;

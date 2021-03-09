@@ -5,85 +5,68 @@ import MusicRNN from '../components/model';
 class Timeline {
     constructor(containerID) {
         this.container = document.getElementById(containerID);
-        this.container.classList.add(styles.timeline);
+        this.container.classList.add(styles.container);
 
         this.model = new MusicRNN();
+
+        this.render();
     }
 
     render() {
-        this.renderPauseBtn();
-        this.renderPlayBtn();
-        this.renderProgress();
+        this.pauseButton = document.createElement("button");
+        this.playButton = document.createElement("button");
+        this.progress = document.createElement('div');
+        this.progressBar = document.createElement('div');
+        
+        this.pauseButton.classList.add(styles.button);
+        this.playButton.classList.add(styles.button);
+        this.progress.classList.add(styles.progress);
+        this.progressBar.classList.add(styles.bar);
 
-        this.pauseBtn.disabled = true;
+        this.pauseButton.addEventListener("click", (event) => this.handlePauseButton(event));
+        this.playButton.addEventListener("click", (event) => this.handlePlayButton(event));
+
+        this.pauseButton.disabled = true;
+
+        // Pause Button
+        const pauseImage = document.createElement("img");
+        pauseImage.setAttribute("src", "/icons/pause-circle-outline.svg");
+        pauseImage.setAttribute("alt", "Pause Button");
+        pauseImage.classList.add(styles.image);
+        this.pauseButton.appendChild(pauseImage);
+        this.container.appendChild(this.pauseButton);
+
+        // Play Button
+        const playImage = document.createElement("img");
+        playImage.setAttribute("src", "/icons/play-circle-outline.svg");
+        playImage.setAttribute("alt", "Play Button");
+        playImage.classList.add(styles.image);
+        this.playButton.appendChild(playImage);
+        this.container.appendChild(this.playButton);
+
+        // Progress Bar
+        this.progressWidth = 0;
+        this.progressBar.style.width =`${this.progressWidth}%`;
+        this.progress.appendChild(this.progressBar);
+        this.container.appendChild(this.progress);
     }
 
-    renderPauseBtn() {
-        this.pauseBtn = document.createElement("button");
-        const pauseImg = document.createElement("img");
-
-        pauseImg.setAttribute("src", "/icons/pause-circle-outline.svg");
-        pauseImg.setAttribute("alt", "Pause Button");
-
-        this.pauseBtn.classList.add(styles.timelineBtn);
-        pauseImg.classList.add(styles.timelineImg);
-
-        this.pauseBtn.addEventListener("click", (event) => {
-            this.handlePauseBtn(event);
-        });
-
-        this.pauseBtn.appendChild(pauseImg);
-        this.container.appendChild(this.pauseBtn);
-    }
-
-    renderPlayBtn() {
-        this.playBtn = document.createElement("button");
-        const playImg = document.createElement("img");
-
-        playImg.setAttribute("src", "/icons/play-circle-outline.svg");
-        playImg.setAttribute("alt", "Play Button");
-
-        this.playBtn.classList.add(styles.timelineBtn);
-        playImg.classList.add(styles.timelineImg);
-
-        this.playBtn.addEventListener("click", (event) => {
-            this.handlePlayBtn(event);
-        });
-
-        this.playBtn.appendChild(playImg);
-        this.container.appendChild(this.playBtn);
-    }
-
-    handlePauseBtn(event) {
+    handlePauseButton(event) {
         event.preventDefault();
-        this.pauseBtn.disabled = true;
-        this.playBtn.disabled = false;
+        this.pauseButton.disabled = true;
+        this.playButton.disabled = false;
 
         this.audioInput.pauseAudio();
         this.model.generateMusic(this.audioInput.noteSequence, this.progressWidth, this.progressBar);
     }
 
-    handlePlayBtn(event) {
+    handlePlayButton(event) {
         event.preventDefault();
-        this.playBtn.disabled = true;
-        this.pauseBtn.disabled = false;
+        this.playButton.disabled = true;
+        this.pauseButton.disabled = false;
 
         this.audioInput = new AudioInput();
         this.audioInput.recordAudio();
-    }
-
-    renderProgress() {
-        this.progress = document.createElement('div');
-        this.progressBar = document.createElement('div');
-
-        this.progress.classList.add(styles.timelineProgress);
-        this.progressBar.classList.add(styles.timelineProgressBar);
-
-        this.progressWidth = 0;
-        this.progressBar.style.width =`${this.progressWidth}%`;
-
-        this.progress.appendChild(this.progressBar);
-        this.container.appendChild(this.progress);
     }
 }
 

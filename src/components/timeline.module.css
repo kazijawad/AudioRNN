@@ -1,4 +1,4 @@
-.timeline {
+.container {
     position: fixed;
     bottom: 5%;
     left: 50%;
@@ -15,7 +15,7 @@
     box-shadow: .5rem .5rem 1rem rgba(0, 0, 0, 0.3);
 }
 
-.timelineBtn {
+.button {
     height: 100%;
     margin-right: 1rem;
     border: none;
@@ -24,25 +24,25 @@
     outline: none;
 }
 
-.timelineBtn:disabled {
+.button:disabled {
     cursor: not-allowed;
 }
 
-.timelineBtn:disabled .timelineImg {
+.button:disabled .image {
     opacity: 0.4;
 }
 
-.timelineImg {
+.image {
     height: 100%;
 }
 
-.timelineProgress {
+.progress {
     height: 2rem;
     width: 100%;
     background-color: #dfe6e9;
 }
 
-.timelineProgressBar {
+.bar {
     height: 100%;
     background-color: #1d1d1d;
     transition: width 150ms ease;
