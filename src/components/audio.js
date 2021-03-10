@@ -13,7 +13,7 @@ class AudioInput {
     }
 
     async recordAudio() {
-        this.microphone.open();
+        await this.microphone.open();
         this.noteSequence = { notes: [], totalTime: 0 };
         this.currentTime = 0;
 
