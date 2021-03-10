@@ -30,7 +30,7 @@ scene.add(camera);
 const ambientLight = new THREE.AmbientLight(0xFFFFFF, 1);
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 3);
+const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 5);
 directionalLight.position.set(25, 5, 25);
 scene.add(directionalLight);
 

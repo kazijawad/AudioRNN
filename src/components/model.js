@@ -41,9 +41,11 @@ class MusicRNN {
         const textureLoader = new THREE.TextureLoader();
         const sprite = textureLoader.load("/textures/circle.png");
 
+        const particleColor = new THREE.Color("#D2F5FF");
+
         this.progressInterval = setInterval(() => {
             if (time >= totalTime) {
-                progressWidth = 50;
+                progressWidth = 5;
                 progressBar.style.width = "100%";
                 clearInterval(this.progressInterval);
             } else {
@@ -58,9 +60,9 @@ class MusicRNN {
                     positions[i3 + 1] = Math.random() * 2;
                     positions[i3 + 2] = (Math.random() * (6 - 8) + 8);
 
-                    colors[i3] = Math.random() / 4;
-                    colors[i3 + 1] = Math.random() / 4;
-                    colors[i3 + 2] = Math.random();
+                    colors[i3] = particleColor.r;
+                    colors[i3 + 1] = particleColor.g;
+                    colors[i3 + 2] = particleColor.b;
                 }
 
                 particlesGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
