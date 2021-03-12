@@ -37,11 +37,11 @@ class MusicRNN {
         let time = 100;
 
         this.particles = [];
-        const count = 100;
+        const count = 25;
         const textureLoader = new THREE.TextureLoader();
         const sprite = textureLoader.load("/textures/circle.png");
 
-        const particleColor = new THREE.Color("#6a89cc");
+        const particleColor = new THREE.Color("#fff");
 
         this.progressInterval = setInterval(() => {
             if (time >= totalTime) {
@@ -57,7 +57,7 @@ class MusicRNN {
                     const i3 = i * 3;
 
                     positions[i3] = (Math.random() * (6 - 8) + 8);
-                    positions[i3 + 1] = Math.random() * 2.5;
+                    positions[i3 + 1] = Math.random() + 2;
                     positions[i3 + 2] = (Math.random() * (6 - 8) + 8);
 
                     colors[i3] = particleColor.r;
@@ -88,8 +88,8 @@ class MusicRNN {
                     for (let i = 0; i < count; i++) {
                         const i3 = i * 3;
     
-                        positions[i3] = positions[i3] + Math.random() / 2;
-                        positions[i3 + 2] = positions[i3 + 2] + Math.random() / 2;
+                        positions[i3] = positions[i3] + Math.random() / 4;
+                        positions[i3 + 2] = positions[i3 + 2] + Math.random() / 4;
 
                         particles.geometry.attributes.position.needsUpdate = true;
                     }

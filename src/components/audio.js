@@ -26,13 +26,13 @@ class AudioInput {
                 this.noteSequence.notes.push({
                     pitch: midi,
                     startTime: (this.currentTime) / 1000,
-                    endTime: (this.currentTime + 100) / 1000,
+                    endTime: (this.currentTime + 20) / 1000,
                 });
-                this.noteSequence.totalTime = (this.currentTime + 100) / 1000;
+                this.noteSequence.totalTime = (this.currentTime + 20) / 1000;
             }
 
-            this.currentTime += 100;
-        }, 100);
+            this.currentTime += 20;
+        }, 20);
     }
 
     async pauseAudio() {
