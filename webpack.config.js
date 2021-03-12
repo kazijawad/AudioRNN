@@ -17,21 +17,9 @@ module.exports = ({ mode } = { mode: "prod" }) => {
         module: {
             rules: [
                 {
-                    test: /\.html$/i,
-                    use: ["html-loader"],
-                },
-                {
-                    test: /\.css$/i,
-                    use: ["style-loader", "css-loader"],
-                },
-                {
                     test: /\.(js|jsx)$/i,
                     exclude: /node_modules/,
                     use: ["babel-loader"],
-                },
-                {
-                    test: /\.(png|svg|jpe?g|gif)$/,
-                    use: ["file-loader"],
                 },
             ],
         },
