@@ -74,8 +74,32 @@ body {
 
 .timeline__progress {
     height: 100%;
+    width: 0%;
     background-color: #1d1d1d;
     transition: width 150ms ease;
+}
+
+.error {
+    position: fixed;
+    padding: 2rem;
+    left: 50%;
+    bottom: calc(5% + 10vh + 2rem);
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    background-color: #ff7979;
+    color: #dfe6e9;
+    border-radius: .5rem;
+    transition: opacity 0.5s;
+}
+
+.error[data-toggle="false"] {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.error[data-toggle="true"] {
+    opacity: 1;
+    visibility: visible;
 }
 
 @media only screen and (max-width: 812px) {

@@ -12,10 +12,19 @@ class AudioInput {
     }
 
     async recordAudio() {
+        // Reset Visuals
+        const error = document.querySelector(".error");
+        error.dataset.toggle = false;
+
+        const progressBar = document.querySelector(".timeline__progress");
+        progressBar.style.width = "0%";
+
+        // Initialization
         await this.microphone.open();
         this.noteSequence = { notes: [], totalTime: 0 };
         this.currentTime = 0;
 
+        // Listen
         this.audioRecordingID = setInterval(() => {
             const value = this.analyzer.getValue();
             const pitch = this.detectPitch(value);

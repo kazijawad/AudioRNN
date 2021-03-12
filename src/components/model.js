@@ -19,7 +19,9 @@ class Model {
         }
 
         if (noteSequence.totalTime <= 0) {
-            console.error("No notes were generated.");
+            const error = document.querySelector(".error");
+            error.dataset.toggle = true;
+            return;
         }
 
         if (this.particles && this.particles.length > 0) {
@@ -47,7 +49,6 @@ class Model {
 
         this.progressInterval = setInterval(() => {
             if (time >= totalTime) {
-                progress = 5;
                 progressBar.style.width = "100%";
                 clearInterval(this.progressInterval);
             } else {
