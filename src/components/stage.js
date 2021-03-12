@@ -9,6 +9,7 @@ const sizes = {
 
 // Loaders
 const glTFLoader = new GLTFLoader();
+const textureLoader = new THREE.TextureLoader();
 
 // Canvas
 const canvas = document.getElementById("stage");
@@ -16,41 +17,57 @@ const canvas = document.getElementById("stage");
 // Scene
 const scene = new THREE.Scene();
 
-// Fog
-const fog = new THREE.Fog("#dfe6e9", 30, 55);
-scene.fog = fog;
-
 // Camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(22, 5, 22);
-camera.rotation.y = Math.PI / 4
+camera.position.set(20, 5, 20);
+camera.rotation.y = Math.PI / 3
 scene.add(camera);
 
-// Lights
-const ambientLight = new THREE.AmbientLight(0xFFFFFF, 1);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 5);
-directionalLight.position.set(25, 5, 25);
-scene.add(directionalLight);
-
 // Models
-const planeGeometry = new THREE.PlaneGeometry(100, 100);
-const planeMaterial = new THREE.MeshBasicMaterial({ color: "#dfe6e9" });
-const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-plane.rotation.x = -Math.PI / 2;
-scene.add(plane);
-
-glTFLoader.load("/models/room.glb", (glTF) => scene.add(glTF.scene));
+glTFLoader.load("/models/room.gltf", (glTF) => {
+    for (const mesh of glTF.scene.children) {
+        if (mesh.name === "Floor") {
+            const map = textureLoader.load("/textures/floor_diffuse.png");
+            const aoMap = textureLoader.load("/textures/floor_ao.png");
+            map.flipY = false;
+            aoMap.flipY = false;
+            mesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
+        } else if (mesh.name === "Wall") {
+            const map = textureLoader.load("/textures/wall_diffuse.png");
+            const aoMap = textureLoader.load("/textures/wall_ao.png");
+            map.flipY = false;
+            aoMap.flipY - false;
+            mesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
+        } else if (mesh.name === "Base") {
+            const map = textureLoader.load("/textures/base_diffuse.png");
+            const aoMap = textureLoader.load("/textures/base_diffuse.png");
+            map.flipY = false;
+            aoMap.flipY = false;
+            mesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
+            for (const childMesh of mesh.children) {
+                if (childMesh.name === "Top_Panel") {
+                    const map = textureLoader.load("/textures/top_panel_diffuse.png");
+                    const aoMap = textureLoader.load("/textures/top_panel_diffuse.png");
+                    map.flipY = false;
+                    aoMap.flipY = false;
+                    childMesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
+                } else if (childMesh.name === "Bottom_Panel") {
+                    const map = textureLoader.load("/textures/bottom_panel_diffuse.png");
+                    const aoMap = textureLoader.load("/textures/bottom_panel_diffuse.png");
+                    map.flipY = false;
+                    aoMap.flipY = false;
+                    childMesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
+                }
+            }
+        }
+    }
+    scene.add(glTF.scene);
+});
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(sizes.width, sizes.height);
-renderer.setClearColor("#dfe6e9");
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.physicallyCorrectLights = true;
-renderer.outputEncoding = THREE.sRGBEncoding;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
 window.addEventListener("resize", () => {
     // Update sizes
