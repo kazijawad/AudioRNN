@@ -1,19 +1,18 @@
-import * as mm from "@magenta/music/es6";
 import * as THREE from "three";
 
 import scene from "./stage";
 
-class MusicRNN {
+class Model {
     constructor() {
-        this.player = new mm.Player();
+        this.player = new core.Player();
 
-        this.model = new mm.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/melody_rnn");
+        this.model = new music_rnn.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/melody_rnn");
         if (!this.model.isInitialized) {
             this.model.initialize();
         }
     }
 
-    async generateMusic(noteSequence, progressWidth, progressBar) {
+    async generateMusic(noteSequence) {
         if (this.player.isPlaying()) {
             this.player.stop();
             return;
@@ -27,11 +26,11 @@ class MusicRNN {
             this.particles.forEach((object) => scene.remove(object));
         }
 
-        this.quantizedNoteSequence = mm.sequences.quantizeNoteSequence(noteSequence, 4);
+        this.quantizedNoteSequence = core.sequences.quantizeNoteSequence(noteSequence, 4);
         this.sample = await this.model.continueSequence(this.quantizedNoteSequence, 20, 0.75);
         this.player.start(this.sample);
 
-        const unquantizedNotes = mm.sequences.unquantizeSequence(this.sample);
+        const unquantizedNotes = core.sequences.unquantizeSequence(this.sample);
         const totalTime = unquantizedNotes.totalTime * 1000;
         const interval = (100 / totalTime) * 100;
         let time = 100;
@@ -43,9 +42,12 @@ class MusicRNN {
 
         const particleColor = new THREE.Color("#fff");
 
+        let progress = 0;
+        const progressBar = document.querySelector(".timeline__progress");
+
         this.progressInterval = setInterval(() => {
             if (time >= totalTime) {
-                progressWidth = 5;
+                progress = 5;
                 progressBar.style.width = "100%";
                 clearInterval(this.progressInterval);
             } else {
@@ -100,12 +102,12 @@ class MusicRNN {
                 
                 tick();
 
-                progressWidth += interval;
-                progressBar.style.width = `${progressWidth}%`;
+                progress += interval;
+                progressBar.style.width = `${progress}%`;
             }
             time += 100;
         }, 100);
     }
 }
 
-export default MusicRNN;
+export default Model;

@@ -12,7 +12,7 @@ const glTFLoader = new GLTFLoader();
 const textureLoader = new THREE.TextureLoader();
 
 // Canvas
-const canvas = document.getElementById("stage");
+const canvas = document.querySelector(".stage");
 
 // Scene
 const scene = new THREE.Scene();

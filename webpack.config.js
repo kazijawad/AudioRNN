@@ -33,10 +33,6 @@ module.exports = ({ mode } = { mode: "prod" }) => {
                     test: /\.(png|svg|jpe?g|gif)$/,
                     use: ["file-loader"],
                 },
-                {
-                    test: /\.(glsl|vs|fs|vert|frag)$/,
-                    use: ["raw-loader", "glslify-loader"],
-                },
             ],
         },
         plugins: [

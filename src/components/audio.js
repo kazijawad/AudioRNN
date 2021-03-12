@@ -1,4 +1,3 @@
-import * as Tone from 'tone';
 import Pitchfinder from "pitchfinder";
 
 class AudioInput {

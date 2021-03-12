@@ -5,10 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AudioRNN</title>
     <link rel="icon" href="favicon.png" importance="low">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.58/Tone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/1.2.8/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.21.0/es6/core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.21.0/es6/music_rnn.js"></script>
 </head>
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <canvas id="stage"></canvas>
-    <section id="timeline"></section>
+    <canvas class="stage"></canvas>
+    <section class="timeline">
+        <button id="pause" class="timeline__button">
+            <img class="timeline__icon" src="/icons/pause-circle-outline.svg" alt="pause icon">
+        </button>
+        <button id="play" class="timeline__button">
+            <img class="timeline__icon" src="/icons/play-circle-outline.svg" alt="play icon">
+        </button>
+        <div class="timeline__bar">
+            <div class="timeline__progress"></div>
+        </div>
+    </section>
 </body>
 </html>
