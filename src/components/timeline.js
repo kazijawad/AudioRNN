@@ -9,6 +9,7 @@ class Timeline {
         this.pauseButton.addEventListener("click", (event) => {
             this.handlePauseButton(event);
         });
+        this.pauseButton.disabled = true;
 
         this.playButton = document.querySelector("#play");
         this.playButton.addEventListener("click", (event) => {

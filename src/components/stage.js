@@ -19,44 +19,27 @@ const scene = new THREE.Scene();
 
 // Camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(20, 5, 20);
-camera.rotation.y = Math.PI / 3
+camera.position.set(18, 5, 18);
+camera.rotation.y = Math.PI / 4
 scene.add(camera);
+
+// Lights
+const pointLight = new THREE.PointLight(0xFFFFFF, 1.7, 100);
+pointLight.position.set(20, 20, 20);
+scene.add(pointLight);
 
 // Models
 glTFLoader.load("/models/room.gltf", (glTF) => {
     for (const mesh of glTF.scene.children) {
         if (mesh.name === "Floor") {
-            const map = textureLoader.load("/textures/floor_diffuse.png");
-            const aoMap = textureLoader.load("/textures/floor_ao.png");
-            map.flipY = false;
-            aoMap.flipY = false;
-            mesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
+            mesh.material = new THREE.MeshStandardMaterial({ color: 0x8C7161 });
         } else if (mesh.name === "Wall") {
-            const map = textureLoader.load("/textures/wall_diffuse.png");
-            const aoMap = textureLoader.load("/textures/wall_ao.png");
-            map.flipY = false;
-            aoMap.flipY - false;
-            mesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
+            mesh.material = new THREE.MeshStandardMaterial({ color: 0xFFFFFF });
         } else if (mesh.name === "Base") {
-            const map = textureLoader.load("/textures/base_diffuse.png");
-            const aoMap = textureLoader.load("/textures/base_diffuse.png");
-            map.flipY = false;
-            aoMap.flipY = false;
-            mesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
+            mesh.material = new THREE.MeshStandardMaterial({ color: 0xFFFFFF });
             for (const childMesh of mesh.children) {
-                if (childMesh.name === "Top_Panel") {
-                    const map = textureLoader.load("/textures/top_panel_diffuse.png");
-                    const aoMap = textureLoader.load("/textures/top_panel_diffuse.png");
-                    map.flipY = false;
-                    aoMap.flipY = false;
-                    childMesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
-                } else if (childMesh.name === "Bottom_Panel") {
-                    const map = textureLoader.load("/textures/bottom_panel_diffuse.png");
-                    const aoMap = textureLoader.load("/textures/bottom_panel_diffuse.png");
-                    map.flipY = false;
-                    aoMap.flipY = false;
-                    childMesh.material = new THREE.MeshBasicMaterial({ map, aoMap });
+                if (childMesh.name === "Top_Panel" && childMesh.name === "Bottom_Panel") {
+                    childMesh.material = new THREE.MeshStandardMaterial({ color: 0x262622 });
                 }
             }
         }

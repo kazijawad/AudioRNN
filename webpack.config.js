@@ -12,7 +12,7 @@ module.exports = ({ mode } = { mode: "prod" }) => {
         },
         output: {
             path: path.resolve(__dirname, "dist"),
-            filename: "[chunkhash].bundle.js",
+            filename: "script.js",
         },
         module: {
             rules: [
@@ -25,7 +25,7 @@ module.exports = ({ mode } = { mode: "prod" }) => {
         },
         plugins: [
             new CopyWebpackPlugin({ patterns: [{ from: path.resolve(__dirname, "public") }] }),
-            new HtmlWebpackPlugin({ template: path.resolve(__dirname, "public/index.html") })
+            new HtmlWebpackPlugin({ template: path.resolve(__dirname, "src/index.html") })
         ],
     }, modeConfig(mode));
 }
