@@ -1,4 +1,4 @@
-import Pitchfinder from "pitchfinder";
+import Pitchfinder from 'pitchfinder';
 
 class AudioInput {
     constructor() {
@@ -13,11 +13,11 @@ class AudioInput {
 
     async recordAudio() {
         // Reset Visuals
-        const error = document.querySelector(".error");
+        const error = document.querySelector('.error');
         error.dataset.toggle = false;
 
-        const progressBar = document.querySelector(".timeline__progress");
-        progressBar.style.width = "0%";
+        const progressBar = document.querySelector('.timeline__progress');
+        progressBar.style.width = '0%';
 
         // Initialization
         await this.microphone.open();

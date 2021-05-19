@@ -1,19 +1,11 @@
 {
     "name": "audio-rnn",
-    "description": "A simple audio workstation that generates music from raw audio input using a RNN model.",
     "private": true,
-    "license": "UNLICENSED",
-    "homepage": "https://github.com/kazijawad/AudioRNN.git",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/kazijawad/AudioRNN.git"
-    },
-    "bugs": {
-        "url": "https://github.com/kazijawad/AudioRNN.git"
-    },
+    "description": "A simple audio workstation that generates music from raw audio input using a RNN model.",
     "scripts": {
         "dev": "webpack serve --hot --env mode=dev",
-        "build": "webpack --env mode=prod"
+        "build": "webpack --env mode=prod",
+        "lint": "eslint . --fix"
     },
     "devDependencies": {
         "@babel/core": "^7.12.10",
@@ -21,6 +13,8 @@
         "babel-loader": "^8.2.2",
         "clean-webpack-plugin": "^3.0.0",
         "copy-webpack-plugin": "^7.0.0",
+        "eslint": "^7.26.0",
+        "eslint-plugin-import": "^2.23.2",
         "html-webpack-plugin": "^4.5.0",
         "pitchfinder": "^2.3.1",
         "three": "^0.123.0",

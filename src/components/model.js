@@ -1,12 +1,12 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 
-import scene from "./stage";
+import scene from './stage';
 
 class Model {
     constructor() {
         this.player = new core.Player();
 
-        this.model = new music_rnn.MusicRNN("https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/melody_rnn");
+        this.model = new music_rnn.MusicRNN('https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/melody_rnn');
         if (!this.model.isInitialized) {
             this.model.initialize();
         }
@@ -19,7 +19,7 @@ class Model {
         }
 
         if (noteSequence.totalTime <= 0) {
-            const error = document.querySelector(".error");
+            const error = document.querySelector('.error');
             error.dataset.toggle = true;
             return;
         }
@@ -40,16 +40,16 @@ class Model {
         this.particles = [];
         const count = 25;
         const textureLoader = new THREE.TextureLoader();
-        const sprite = textureLoader.load("/textures/circle.png");
+        const sprite = textureLoader.load('/textures/circle.png');
 
-        const particleColor = new THREE.Color("#fff");
+        const particleColor = new THREE.Color('#fff');
 
         let progress = 0;
-        const progressBar = document.querySelector(".timeline__progress");
+        const progressBar = document.querySelector('.timeline__progress');
 
         this.progressInterval = setInterval(() => {
             if (time >= totalTime) {
-                progressBar.style.width = "100%";
+                progressBar.style.width = '100%';
                 clearInterval(this.progressInterval);
             } else {
                 const positions = new Float32Array(count * 3);
@@ -68,8 +68,8 @@ class Model {
                     colors[i3 + 2] = particleColor.b;
                 }
 
-                particlesGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-                particlesGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
                 const particlesMaterial = new THREE.PointsMaterial({
                     size: Math.random(),

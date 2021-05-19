@@ -1,5 +1,5 @@
-import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 // Sizes
 const sizes = {
@@ -9,10 +9,9 @@ const sizes = {
 
 // Loaders
 const glTFLoader = new GLTFLoader();
-const textureLoader = new THREE.TextureLoader();
 
 // Canvas
-const canvas = document.querySelector(".stage");
+const canvas = document.querySelector('.stage');
 
 // Scene
 const scene = new THREE.Scene();
@@ -29,16 +28,16 @@ pointLight.position.set(20, 20, 20);
 scene.add(pointLight);
 
 // Models
-glTFLoader.load("/models/room.gltf", (glTF) => {
+glTFLoader.load('/models/room.gltf', (glTF) => {
     for (const mesh of glTF.scene.children) {
-        if (mesh.name === "Floor") {
+        if (mesh.name === 'Floor') {
             mesh.material = new THREE.MeshStandardMaterial({ color: 0x8C7161 });
-        } else if (mesh.name === "Wall") {
+        } else if (mesh.name === 'Wall') {
             mesh.material = new THREE.MeshStandardMaterial({ color: 0xFFFFFF });
-        } else if (mesh.name === "Base") {
+        } else if (mesh.name === 'Base') {
             mesh.material = new THREE.MeshStandardMaterial({ color: 0xFFFFFF });
             for (const childMesh of mesh.children) {
-                if (childMesh.name === "Top_Panel" && childMesh.name === "Bottom_Panel") {
+                if (childMesh.name === 'Top_Panel' && childMesh.name === 'Bottom_Panel') {
                     childMesh.material = new THREE.MeshStandardMaterial({ color: 0x262622 });
                 }
             }
@@ -52,7 +51,7 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth;
     sizes.height = window.innerHeight;

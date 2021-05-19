@@ -1,4 +1,4 @@
-import "./components/stage";
+import './components/stage';
 import Timeline from './components/timeline';
 
-new Timeline("timeline");
+new Timeline('timeline');

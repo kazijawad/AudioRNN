@@ -5,14 +5,14 @@ class Timeline {
         this.element = element;
         this.model = new Model();
 
-        this.pauseButton = document.querySelector("#pause");
-        this.pauseButton.addEventListener("click", (event) => {
+        this.pauseButton = document.querySelector('#pause');
+        this.pauseButton.addEventListener('click', (event) => {
             this.handlePauseButton(event);
         });
         this.pauseButton.disabled = true;
 
-        this.playButton = document.querySelector("#play");
-        this.playButton.addEventListener("click", (event) => {
+        this.playButton = document.querySelector('#play');
+        this.playButton.addEventListener('click', (event) => {
             this.handlePlayButton(event);
         });
     }
@@ -31,7 +31,7 @@ class Timeline {
         this.playButton.disabled = true;
         this.pauseButton.disabled = false;
 
-        const AudioInput = (await import("./audio")).default;
+        const AudioInput = (await import('./audio')).default;
         await Tone.start();
 
         this.audioInput = new AudioInput();
